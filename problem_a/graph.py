@@ -26,7 +26,7 @@ def main(argv):
 class Graph(object):
     """
     Implementation of graph for problem A
-    Assumptions
+    Assumptions: input file is properly formatted (see constructor docstring)
     """
 
     def __init__(self, content, mode):
