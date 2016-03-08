@@ -132,6 +132,8 @@ class Graph(object):
             # calculate their tentative distances. Compare the newly calculated
             # tentative distance to the current assigned value and assign
             # the smaller one.
+
+            # Note: iterating through all the edges isn't the best idea
             for edge in self._edges:
                 # check if current edge has current node as origin
                 if str(current) == edge[0] and int(edge[1]) in tentative_nodes:
