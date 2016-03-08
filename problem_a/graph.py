@@ -1,10 +1,35 @@
+import argparse
+import sys
+
+
+def main(argv):
+    parser = argparse.ArgumentParser(
+        description='Problem A solution using Dijkstra\'s algorithm')
+    parser.add_argument('-i', '--input', metavar='input', nargs=1,
+                        help='The input file (default="input.txt")')
+    parser.add_argument('-m', '--mode', metavar='mode', nargs=1,
+                        help='The mode of the edge construction' +
+                             '(default="dr")')
+
+    args = parser.parse_args()
+    file_input = "input.txt"
+    mode = "dr"
+    if args.input:
+        file_input = args.input[0]
+    if args.mode:
+        mode = args.mode[0]
+    with open(file_input, 'r') as f:
+        graph = Graph(f.read(), mode)
+        print(graph.dijkstra())
+
+
 class Graph(object):
     """
     Implementation of graph for problem A
     Assumptions
     """
 
-    def __init__(self, content, mode="dr"):
+    def __init__(self, content, mode):
         """
         Constructor for Graph object; takes a set of string as input as well
         as the construction mode.
@@ -56,14 +81,16 @@ class Graph(object):
                         self._edges.add((destination_node, origin_node, 'l'))
                 if curr_row + 1 != rows:
                     try:
-                        destination_node = str(temp_array[curr_row + 1][curr_col])
+                        destination_node = str(
+                            temp_array[curr_row + 1][curr_col])
 
                         # downward edge construction
                         self._edges.add((origin_node, destination_node, 'd'))
 
                         # upward edge construction
                         if mode == "free":
-                            self._edges.add((destination_node, origin_node, 'u'))
+                            self._edges.add(
+                                (destination_node, origin_node, 'u'))
                     # For the case of protruding graphs
                     # e.g.
                     # 1 2 3 <-- protruding
@@ -150,12 +177,6 @@ class Graph(object):
                     solution += edge[2] + ','
         return solution[:-1]
 
-with open('input.txt', 'r') as f:
-    content = ("0 0 0 0 0 5\n" +
-               "5 5 5 5 0 5\n" +
-               "0 0 0 5 0 5\n" +
-               "0 5 0 0 0 5\n" +
-               "0 5 5 5 5 5\n" +
-               "0 0 0 0 0 0")
-    graph = Graph(f.read(), mode="free")
-    print(graph.dijkstra())
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
